@@ -27,14 +27,13 @@ public class MainActivity extends AppCompatActivity {
                 String diffVar = editTextDiffVar.getText().toString();
 
                 String answer = "";
+
                 try {
                     answer = Compute.getAnswer(input, diffVar);
+                    output.setText(answer);
                 } catch (InvalidInputException e) {
                     output.setText(e.getMessage());
                 }
-
-                output.setText(answer);
-
             }
         });
 

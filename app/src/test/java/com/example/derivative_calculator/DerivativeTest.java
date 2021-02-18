@@ -40,7 +40,7 @@ class DerivativeTest {
         actualTree = Derivative.derive(actualTree, "x");
 
         BinaryTreeNode expectedTree = new BinaryTreeNode("*");
-        BinaryTreeNode leftChild = new BinaryTreeNode("*", new BinaryTreeNode("3"), new BinaryTreeNode("1"));
+        BinaryTreeNode leftChild = new BinaryTreeNode("3");
         BinaryTreeNode rightChild = new BinaryTreeNode("^", new BinaryTreeNode("x"), new BinaryTreeNode("2"));
         expectedTree.setLeftChild(leftChild);
         expectedTree.setRightChild(rightChild);

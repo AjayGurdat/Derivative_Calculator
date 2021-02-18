@@ -32,6 +32,7 @@ public class Derivative {
                 tempTree = new BinaryTreeNode("+");
                 tempTree.setLeftChild(new BinaryTreeNode("*", derive(leftChild, diffVar), rightChild));
                 tempTree.setRightChild(new BinaryTreeNode("*", leftChild, derive(rightChild, diffVar)));
+
                 return tempTree;
             case "/":
                 //Quotient Rule: f/g --> (f’g − fg’)/g^2
@@ -56,7 +57,7 @@ public class Derivative {
                 } else {
                     // Chain Rule: f(g(x)) --> f’(g(x)) * g’(x)
 
-                    Double exponent = Double.parseDouble(rightChild.getElement());
+                    double exponent = Double.parseDouble(rightChild.getElement());
                     Double newExponent = exponent - 1;
 
                     tempTree = new BinaryTreeNode("*");
@@ -95,7 +96,7 @@ public class Derivative {
     private static BinaryTreeNode deriveExponent(BinaryTreeNode tree, String diffVar) throws InvalidInputException {
         if (Utilities.containsTree(diffVar, tree.getLeftChild()) && Utilities.isNumeric(tree.getRightChild().getElement())) {
 
-            Double exponent = Double.parseDouble(tree.getRightChild().getElement());
+            double exponent = Double.parseDouble(tree.getRightChild().getElement());
             double newExponent = exponent - 1;
 
             BinaryTreeNode newTree = new BinaryTreeNode("*");
@@ -109,12 +110,12 @@ public class Derivative {
 
         } else if (Utilities.containsTree(diffVar, tree.getRightChild())) {
             //TODO Allow the differential variable to be in exponents
-            throw new InvalidInputException("Invalid Input - The differential variable is currently not supported for exponents\"");
+            throw new InvalidInputException("Invalid Input - The differential variable is currently not supported for exponents");
         } else if (!Utilities.containsTree(diffVar, tree.getLeftChild())) {
             return new BinaryTreeNode("0");
         } else {
             //TODO Allow variables in exponents
-            throw new InvalidInputException("Invalid Input - Variables are currently not supported for exponents\"");
+            throw new InvalidInputException("Invalid Input - Variables are currently not supported for exponents");
         }
     }
 }

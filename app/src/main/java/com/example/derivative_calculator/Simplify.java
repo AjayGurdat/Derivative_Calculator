@@ -17,7 +17,7 @@ public class Simplify {
      * Made as a separate method to not call "collectLikeTerms" method more than necessary.
      * @param tree Input tree to simplify
      * @return Simplified version of the input binary tree
-     * @throws ArithmeticException
+     * @throws ArithmeticException Error computing an equation
      */
     private static BinaryTreeNode simplifyHelper (BinaryTreeNode tree) throws ArithmeticException {
 
@@ -155,33 +155,41 @@ public class Simplify {
      * @return Simplified version of the input binary tree
      */
     private static BinaryTreeNode collectLikeTerms (BinaryTreeNode tree) {
+        // TODO Simplify this
         String element = tree.getElement();
 
         if (Utilities.isSymbol(element)) {
             String leftChildElement = tree.getLeftChild().getElement();
             String rightChildElement = tree.getRightChild().getElement();
 
+            // Recurse on left child if symbols are different
             if (!element.equals(leftChildElement) && Utilities.isSymbol(leftChildElement)) {
                 BinaryTreeNode newChild = collectLikeTerms(tree.getLeftChild());
                 tree.setLeftChild(newChild);
             }
 
+            // Recurse on right child if symbols are different
             if (!element.equals(rightChildElement) && Utilities.isSymbol(rightChildElement)) {
                 BinaryTreeNode newChild = collectLikeTerms(tree.getRightChild());
                 tree.setRightChild(newChild);
             }
 
-            Double leftValue = 0.0, rightValue = 0.0, newValue;
+
+
+            double leftValue = 0.0, rightValue = 0.0, newValue;
             BinaryTreeNode nodeToChange = tree;
             if (element.equals(leftChildElement) && Utilities.isNumeric(rightChildElement)) {
+
                 rightValue = Double.parseDouble(rightChildElement);
                 tree = tree.getLeftChild(); // Shrinks the tree to simplify it
                 leftChildElement = tree.getLeftChild().getElement();
                 rightChildElement = tree.getRightChild().getElement();
+
                 if (Utilities.isNumeric(leftChildElement)) {
                     leftValue = Double.parseDouble(leftChildElement);
                     tree.setRightChild(collectLikeTerms(tree.getRightChild()));
                     nodeToChange = tree.getLeftChild();
+
                 } else if (Utilities.isNumeric(rightChildElement)) {
                     leftValue = Double.parseDouble(rightChildElement);
                     tree.setLeftChild(collectLikeTerms(tree.getLeftChild()));
@@ -191,14 +199,17 @@ public class Simplify {
                 nodeToChange.setElement(newValue + "");
 
             } else if (element.equals(rightChildElement) && Utilities.isNumeric(leftChildElement)) {
+
                 leftValue = Double.parseDouble(leftChildElement);
                 tree = tree.getRightChild(); // Shrinks the tree to simplify it
                 leftChildElement = tree.getLeftChild().getElement();
                 rightChildElement = tree.getRightChild().getElement();
+
                 if (Utilities.isNumeric(leftChildElement)) {
                     rightValue = Double.parseDouble(leftChildElement);
                     tree.setRightChild(collectLikeTerms(tree.getRightChild()));
                     nodeToChange = tree.getLeftChild();
+
                 } else if (Utilities.isNumeric(rightChildElement)) {
                     rightValue = Double.parseDouble(rightChildElement);
                     tree.setLeftChild(collectLikeTerms(tree.getLeftChild()));
@@ -207,7 +218,7 @@ public class Simplify {
                 newValue = collectLikeTermsHelper(element, leftValue, rightValue);
                 nodeToChange.setElement(newValue + "");
             } else if (element.equals(leftChildElement) && element.equals(rightChildElement)) {
-
+                // TODO What is this?
             }
         }
         return tree;
@@ -220,8 +231,8 @@ public class Simplify {
      * @param rightValue Right variable
      * @return The number after the calculations
      */
-    private static double collectLikeTermsHelper (String element, Double leftValue, Double rightValue) {
-        Double newValue = 0.0;
+    private static double collectLikeTermsHelper (String element, double leftValue, double rightValue) {
+        double newValue = 0.0;
         switch (element) {
             case "+":
                 newValue = leftValue + rightValue;

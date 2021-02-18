@@ -11,13 +11,13 @@ public class BinaryTreeNode{
     private BinaryTreeNode rightChild;
 
     public BinaryTreeNode(String element) {
-        this.element = element.replaceFirst("\\.0*$|(\\.\\d*?)0+$", "$1");// Removes trailing .0  (6.0 --> 6) resulting from the double type
+        this.element = formatString(element);
         this.leftChild = null;
         this.rightChild = null;
     }
 
     public BinaryTreeNode(String element, BinaryTreeNode leftChild, BinaryTreeNode rightChild) {
-        this.element = element.replaceFirst("\\.0*$|(\\.\\d*?)0+$", "$1");
+        this.element = formatString(element);
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }
@@ -43,7 +43,7 @@ public class BinaryTreeNode{
     }
 
     public void setElement(String element) {
-        this.element = element.replaceFirst("\\.0*$|(\\.\\d*?)0+$", "$1");
+        this.element = formatString(element);
     }
 
     @Override
@@ -65,5 +65,18 @@ public class BinaryTreeNode{
         return Objects.equals(getElement(), that.getElement()) &&
                 Objects.equals(getLeftChild(), that.getLeftChild()) &&
                 Objects.equals(getRightChild(), that.getRightChild());
+    }
+
+    /**
+     * Removes trailing .0  (6.0 --> 6) resulting from the double type
+     * @param string Input string to format
+     * @return Formatted string
+     */
+    private String formatString(String string) {
+        if (Utilities.isNumeric(string)) {
+            return !string.contains(".") ? string : string.replaceAll("0*$", "").replaceAll("\\.$", "");
+        } else {
+            return string;
+        }
     }
 }

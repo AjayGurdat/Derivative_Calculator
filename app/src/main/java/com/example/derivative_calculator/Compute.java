@@ -8,15 +8,14 @@ public class Compute {
      * @param input Input string to differentiate
      * @param diffVar Variable to differentiate with respect to
      * @return Derivative of input string
-     * @throws InvalidInputException
+     * @throws InvalidInputException Not a valid input
      */
     public static String getAnswer(String input, String diffVar) throws InvalidInputException {
-            BinaryTreeNode tree = Parser.parse(input);
-            tree = Simplify.simplify(tree);
-            tree = Derivative.derive(tree, diffVar);
-            tree = Simplify.simplify(tree);
-            System.out.println(tree);
-            return TreeToString.convert(tree);
+        BinaryTreeNode tree = Parser.parse(input);
+        tree = Simplify.simplify(tree);
+        tree = Derivative.derive(tree, diffVar);
+        tree = Simplify.simplify(tree);
+        return TreeToString.convert(tree);
     }
 
 }
